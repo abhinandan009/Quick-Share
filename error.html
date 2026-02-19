@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick Share – Error</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            font-family: "Poppins", system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #F4E2D1, #D6AA9F);
+            background-size: 300% 300%;
+            animation: driftBg 10s ease infinite;
+            overflow: hidden;
+            padding: 40px;
+        }
+
+        @keyframes driftBg {
+            0%   { background-position: 0% 50%;  }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%;  }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+            background: #D6AA9F;
+            top: -150px; left: -150px;
+            animation: floatBlob1 12s ease-in-out infinite;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+            background: #987185;
+            bottom: -100px; right: -100px;
+            animation: floatBlob2 15s ease-in-out infinite;
+        }
+        @keyframes floatBlob1 {
+            0%, 100% { transform: translate(0, 0);       }
+            50%       { transform: translate(40px, 30px); }
+        }
+        @keyframes floatBlob2 {
+            0%, 100% { transform: translate(0, 0);         }
+            50%       { transform: translate(-30px, -20px); }
+        }
+
+        /* CARD */
+        .error-card {
+            position: relative;
+            z-index: 1;
+            background: #E9D5B7;
+            border-radius: 24px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(66, 55, 54, 0.2);
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.94) translateY(16px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* TOP — 45% height */
+        .card-top {
+            background: linear-gradient(145deg, rgba(152,113,133,0.18), rgba(214,170,159,0.25));
+            border-bottom: 1px dashed rgba(66, 55, 54, 0.18);
+            position: relative;
+            flex: 0 0 45%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 48px;
+        }
+
+        .card-top::after {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border-radius: 16px;
+            border: 1.5px dashed rgba(152, 113, 133, 0.25);
+            pointer-events: none;
+        }
+
+        /* ICON */
+        .icon-wrap {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            border: 2px solid rgba(152,113,133,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            animation: wobble 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.5s both,
+                       pulse 2.5s ease-in-out 1.4s infinite;
+        }
+
+        @keyframes wobble {
+            0%   { transform: rotate(0deg);  }
+            15%  { transform: rotate(-8deg); }
+            30%  { transform: rotate(7deg);  }
+            45%  { transform: rotate(-5deg); }
+            60%  { transform: rotate(4deg);  }
+            75%  { transform: rotate(-2deg); }
+            100% { transform: rotate(0deg);  }
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0    rgba(152, 113, 133, 0.4); }
+            50%       { box-shadow: 0 0 0 16px rgba(152, 113, 133, 0);  }
+        }
+
+        .icon-wrap svg { width: 62px; height: 62px; }
+
+        .error-code {
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #423736;
+            opacity: 1;
+            margin-bottom: 10px;
+        }
+
+        .error-title {
+            color: #423736;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            line-height: 1.12;
+        }
+
+        /* BOTTOM — 55% height */
+        .card-bottom {
+            flex: 0 0 55%;
+            padding: 32px 48px 36px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .error-desc {
+            color: #423736;
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 640px;
+        }
+
+        /* STATUS STRIP */
+        .status-strip {
+            display: flex;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(66,55,54,0.12);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .status-item {
+            flex: 1;
+            padding: 20px 14px;
+            background: rgba(255,255,255,0.4);
+            text-align: center;
+            border-right: 1px solid rgba(66,55,54,0.1);
+            transition: background 0.2s;
+        }
+        .status-item:last-child { border-right: none; }
+        .status-item:hover { background: rgba(255,255,255,0.65); }
+
+        .status-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            width: 56px; height: 56px;
+            border-radius: 14px;
+            background: rgba(152,113,133,0.1);
+        }
+        .status-icon svg { width: 34px; height: 34px; }
+
+        .status-label {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #2e2322;
+            display: block;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+        .status-val {
+            font-size: 0.92rem;
+            color: #423736;
+            font-weight: 500;
+            display: block;
+        }
+
+        /* BUTTON */
+        .btn-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #423736;
+            color: #fff;
+            text-decoration: none;
+            padding: 18px 36px;
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .btn-back::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-back:hover::before { left: 160%; }
+        .btn-back:hover {
+            background: #987185;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(66, 55, 54, 0.22);
+            color: #fff;
+            text-decoration: none;
+        }
+        .btn-back svg { width: 20px; height: 20px; transition: transform 0.25s ease; }
+        .btn-back:hover svg { transform: translateX(-3px); }
+
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+            .card-top    { flex: 0 0 40%; padding: 24px 28px; }
+            .card-bottom { flex: 0 0 60%; padding: 24px 28px; }
+            .error-title { font-size: 1.8rem; }
+            .icon-wrap   { width: 76px; height: 76px; }
+            .icon-wrap svg { width: 38px; height: 38px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-card">
+
+    <div class="card-top">
+        <div class="icon-wrap" id="iconWrap"></div>
+        <p class="error-code" id="errorCode">ERR_LIMIT_REACHED</p>
+        <h1 class="error-title" id="errorTitle">Download Limit Reached</h1>
+    </div>
+
+    <div class="card-bottom">
+        <p class="error-desc" id="errorDesc"></p>
+
+        <div class="status-strip">
+            <div class="status-item">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <rect x="5" y="2" width="14" height="2.2" rx="1.1" fill="#423736"/>
+                        <rect x="5" y="19.8" width="14" height="2.2" rx="1.1" fill="#423736"/>
+                        <path d="M6.5 4.2 C6.5 4.2 6 8 12 12 C18 8 17.5 4.2 17.5 4.2Z" fill="rgba(152,113,133,0.25)"/>
+                        <path d="M6.5 19.8 C6.5 19.8 6 16 12 12 C18 16 17.5 19.8 17.5 19.8Z" fill="rgba(152,113,133,0.55)"/>
+                        <path d="M6.5 4.2 L6.5 8.5 L12 12 L17.5 8.5 L17.5 4.2" stroke="#423736" stroke-width="1.4" stroke-linejoin="round" fill="none"/>
+                        <path d="M6.5 19.8 L6.5 15.5 L12 12 L17.5 15.5 L17.5 19.8" stroke="#423736" stroke-width="1.4" stroke-linejoin="round" fill="none"/>
+                        <circle cx="10.5" cy="6.5" r="0.8" fill="#987185" opacity="0.6"/>
+                        <circle cx="12"   cy="5.8" r="0.8" fill="#987185" opacity="0.6"/>
+                        <circle cx="13.5" cy="6.5" r="0.8" fill="#987185" opacity="0.6"/>
+                        <ellipse cx="12" cy="18" rx="3.2" ry="1.2" fill="#987185" opacity="0.8"/>
+                    </svg>
+                </div>
+                <span class="status-label">File Life</span>
+                <span class="status-val">24 hours</span>
+            </div>
+            <div class="status-item">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M8 11V7.5a4 4 0 0 1 8 0V11" stroke="#423736" stroke-width="1.6" stroke-linecap="round"/>
+                        <rect x="4.5" y="11" width="15" height="10.5" rx="2.8" fill="rgba(152,113,133,0.3)"/>
+                        <rect x="4.5" y="11" width="15" height="10.5" rx="2.8" stroke="#423736" stroke-width="1.5" fill="none"/>
+                        <path d="M7 13.5 Q8.5 12.5 10 13" stroke="rgba(255,255,255,0.6)" stroke-width="1" stroke-linecap="round"/>
+                        <circle cx="12" cy="16.2" r="2.2" fill="#987185"/>
+                        <circle cx="12" cy="16.2" r="1"   fill="rgba(66,55,54,0.4)"/>
+                        <rect x="11.3" y="17" width="1.4" height="2.2" rx="0.7" fill="#987185"/>
+                    </svg>
+                </div>
+                <span class="status-label">Max Downloads</span>
+                <span class="status-val">10 per file</span>
+            </div>
+            <div class="status-item">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M6.8 19.5a5 5 0 0 1-.8-9.9 5.5 5.5 0 0 1 10.6-.6A4.5 4.5 0 0 1 18 17.5" fill="rgba(152,113,133,0.25)"/>
+                        <path d="M6.8 19.5a5 5 0 0 1-.8-9.9 5.5 5.5 0 0 1 10.6-.6A4.5 4.5 0 0 1 18 17.5" stroke="#423736" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                        <path d="M8 11 Q9 9.5 11 9.5" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linecap="round"/>
+                        <line x1="12" y1="22" x2="12" y2="13.5" stroke="#987185" stroke-width="2" stroke-linecap="round"/>
+                        <polyline points="8.5 17 12 13.5 15.5 17" stroke="#987185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="status-label">Solution</span>
+                <span class="status-val">Re-upload file</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="btn-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Back to Quick Share
+        </a>
+    </div>
+</div>
+
+<script>
+    const params     = new URLSearchParams(window.location.search);
+    const type       = params.get('type');
+    const iconWrap   = document.getElementById('iconWrap');
+    const errorCode  = document.getElementById('errorCode');
+    const errorTitle = document.getElementById('errorTitle');
+    const errorDesc  = document.getElementById('errorDesc');
+
+    const configs = {
+        limit: {
+            code:  'ERR_LIMIT_REACHED',
+            title: 'Download Limit Reached',
+            desc:  'This file has been downloaded the maximum number of times and is no longer available. Ask the sender to upload a fresh copy.',
+            icon:  `<svg viewBox="0 0 24 24" fill="none" stroke="#6b4f5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                        <line x1="4" y1="4" x2="20" y2="20" stroke="#423736" stroke-width="1.8"/>
+                    </svg>`
+        },
+        expired: {
+            code:  'ERR_FILE_EXPIRED',
+            title: 'This File Has Expired',
+            desc:  'Files are automatically deleted after 24 hours. This one is gone for good. Ask the sender to upload it again.',
+            icon:  `<svg viewBox="0 0 24 24" fill="none" stroke="#6b4f5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <polyline points="12 7 12 12 15 14"/>
+                        <line x1="4" y1="4" x2="20" y2="20" stroke="#423736" stroke-width="1.8"/>
+                    </svg>`
+        },
+        invalid: {
+            code:  'ERR_CODE_NOT_FOUND',
+            title: 'Code Not Found',
+            desc:  "The share code you entered doesn't match any file. Double-check it and try again — codes are 6 characters, letters A–F and numbers only.",
+            icon:  `<svg viewBox="0 0 24 24" fill="none" stroke="#6b4f5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <circle cx="12" cy="17" r="0.8" fill="#987185"/>
+                    </svg>`
+        }
+    };
+
+    const cfg = configs[type] || configs.limit;
+    errorCode.textContent  = cfg.code;
+    errorTitle.innerHTML   = cfg.title;
+    errorDesc.textContent  = cfg.desc;
+    iconWrap.innerHTML     = cfg.icon;
+</script>
+
+</body>
+</html>

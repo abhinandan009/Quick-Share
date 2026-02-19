@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick Share</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+  <div class="card quick-card border-0 shadow-lg w-100">
+    
+    <!-- LOGO TOP-LEFT -->
+    <img src="images/logo.png" alt="Quick Share Logo" class="logo-topleft">
+    
+    <!-- HAMBURGER ICON -->
+    <button class="hamburger-icon" id="aboutBtn" aria-label="About Quick Share">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="card-body p-4 p-md-5">
+
+      <!-- HEADER -->
+      <h2 class="text-center fw-bold mb-2 title-text">Quick Share</h2>
+      <p class="text-center subtitle-text mb-4">
+        Upload a file and share it instantly using a secure code
+      </p>
+
+      <!-- UPLOAD -->
+      <div class="mb-4">
+        <h6 class="fw-semibold mb-2 section-title">Upload file</h6>
+
+        <div class="upload-box">
+          <!-- DROP ZONE -->
+          <div class="drop-zone" id="dropZone">
+            <svg class="drop-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p class="drop-text">Drag & drop file here</p>
+            <p class="drop-subtext">or click to browse</p>
+          </div>
+
+          <!-- FILE INFO (Hidden initially) -->
+          <div class="file-info" id="fileInfo" style="display: none;">
+            <svg class="file-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+              <polyline points="13 2 13 9 20 9"></polyline>
+            </svg>
+            <div class="file-details">
+              <span class="file-name" id="fileName">document.pdf</span>
+              <span class="file-size" id="fileSize">2.5 MB</span>
+            </div>
+            <button class="file-remove" id="fileRemove" type="button">×</button>
+          </div>
+
+          <!-- Hidden file input -->
+          <input type="file" id="fileInput" style="display: none;">
+
+          <button id="uploadBtn" class="btn btn-upload w-100 mt-3">
+            Upload & Generate Code
+          </button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="result" class="mb-2"></div>
+
+      <!-- Progress -->
+      <div class="progress mb-4 d-none" id="progressContainer">
+        <div class="progress-bar" id="uploadProgress">0%</div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- DOWNLOAD -->
+      <div>
+        <h6 class="fw-semibold mb-2 section-title">Download file</h6>
+
+        <form
+          class="d-grid gap-2"
+          action="php/download.php"
+          method="GET"
+          autocomplete="off"
+        >
+          <input
+            type="text"
+            id="codeInput"
+            name="code"
+            class="form-control text-uppercase"
+            placeholder="Enter share code"
+            required
+            autocomplete="off"
+            readonly
+            onfocus="this.removeAttribute('readonly');"
+          >
+          <button type="submit" class="btn btn-download">
+            Download File
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ABOUT MODAL -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="about-modal">
+    <div class="modal-header-custom">
+      <h3 class="modal-title">About Quick Share</h3>
+      <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+    </div>
+    
+    <div class="modal-body-custom">
+      
+      <!-- How It Works -->
+      <div class="modal-section">
+        <h5 class="modal-section-title">🚀 How It Works</h5>
+        <ol class="modal-list">
+          <li><strong>Upload:</strong> Choose any file from your device</li>
+          <li><strong>Get Code:</strong> Receive a unique 6-character share code</li>
+          <li><strong>Share:</strong> Send the code to anyone you want to share with</li>
+          <li><strong>Download:</strong> Recipient enters the code to download the file</li>
+        </ol>
+      </div>
+
+      <!-- Features -->
+      <div class="modal-section">
+        <h5 class="modal-section-title">✨ Features</h5>
+        <ul class="modal-list">
+          <li><strong>Instant Sharing:</strong> Generate codes in seconds</li>
+          <li><strong>Secure Codes:</strong> Unique 6-character alphanumeric codes</li>
+          <li><strong>24-Hour Expiry:</strong> Files automatically delete after 24 hours</li>
+          <li><strong>Download Limits:</strong> Track how many times files are downloaded</li>
+          <li><strong>No Registration:</strong> Use immediately, no account needed</li>
+        </ul>
+      </div>
+
+      <!-- Security -->
+      <div class="modal-section">
+        <h5 class="modal-section-title">🔒 Security & Privacy</h5>
+        <ul class="modal-list">
+          <li><strong>Auto-Delete:</strong> Files are permanently removed after expiry</li>
+          <li><strong>Temporary Storage:</strong> No long-term file retention</li>
+          <li><strong>No Tracking:</strong> We don't store personal information</li>
+          <li><strong>Simple & Safe:</strong> Share files without creating accounts</li>
+        </ul>
+      </div>
+
+      <!-- Tips -->
+      <div class="modal-section">
+        <h5 class="modal-section-title">💡 Tips</h5>
+        <ul class="modal-list">
+          <li>Share codes are case-insensitive (ABC123 = abc123)</li>
+          <li>Each code is unique and works only once per download limit</li>
+          <li>Download your files promptly - they expire in 24 hours</li>
+          <li>Keep your share codes private for security</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+
+<!-- MODAL SCRIPT -->
+<script>
+  const aboutBtn = document.getElementById('aboutBtn');
+  const aboutModal = document.getElementById('aboutModal');
+  const closeModal = document.getElementById('closeModal');
+
+  // Open modal
+  aboutBtn.addEventListener('click', () => {
+    aboutModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close modal - X button
+  closeModal.addEventListener('click', () => {
+    aboutModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  });
+
+  // Close modal - Click outside
+  aboutModal.addEventListener('click', (e) => {
+    if (e.target === aboutModal) {
+      aboutModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  });
+
+  // Close modal - ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && aboutModal.classList.contains('active')) {
+      aboutModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  });
+</script>
+</body>
+</html>
